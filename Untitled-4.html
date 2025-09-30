@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maps Arts – Feeding Souls with Creativity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; line-height: 1.6; color: #333; background: #fafafa; }
+    a { text-decoration: none; color: inherit; }
+
+    /* Navbar */
+    nav {
+      position: sticky; top: 0; z-index: 1000;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px 50px; background: rgba(255,255,255,0.95);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    nav .logo { font-size: 1.5rem; font-weight: 700; color: #ff6f61; }
+    nav ul { display: flex; list-style: none; gap: 25px; }
+    nav ul li a { font-weight: 500; transition: 0.3s; }
+    nav ul li a:hover { color: #ff6f61; }
+
+    /* Hero */
+    header {
+      height: 100vh;
+      background: url('IMAGES/IMG_0530 2.jpg') center/cover no-repeat;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; color: white; position: relative; overflow: hidden;
+    }
+    header::after {
+      content: ""; position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.55);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 800px; animation: fadeIn 2s ease-in; }
+    .hero-content h1 { font-size: 3rem; margin-bottom: 15px; }
+    .hero-content p { font-size: 1.5rem; margin-bottom: 25px; }
+    .hero-content a {
+      background: #ff6f61; padding: 15px 30px; color: white; border-radius: 50px;
+      font-weight: 700; transition: 0.3s;
+    }
+    .hero-content a:hover { background: #e65b50; }
+    .profile-circle {
+      width: 120px; height: 120px; border-radius: 50%;
+      overflow: hidden; border: 3px solid #ff6f61; margin: 0 auto 20px auto;
+    }
+    .profile-circle img { width: 100%; height: 100%; object-fit: cover; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Sections */
+    section { padding: 80px 50px; max-width: 1200px; margin: 0 auto; opacity: 0; transform: translateY(30px); transition: all 1s; }
+    section.visible { opacity: 1; transform: translateY(0); }
+    .section-title { font-size: 2.5rem; color: #ff6f61; text-align: center; margin-bottom: 50px; font-weight: 700; }
+
+    /* About */
+    #about .bio-box {
+      background: #28a745; color: white; padding: 20px;
+      border-radius: 15px; max-width: 800px; margin: auto; text-align: center;
+    }
+
+    /* Portfolio */
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 20px; }
+    .portfolio-item { position: relative; border-radius: 10px; overflow: hidden; cursor: pointer; }
+    .portfolio-item img, .portfolio-item video { width: 100%; border-radius: 10px; transition: transform 0.3s; }
+    .portfolio-item:hover img, .portfolio-item:hover video { transform: scale(1.05); }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center;
+      visibility: hidden; opacity: 0; transition: 0.3s; z-index: 2000;
+    }
+    .lightbox.active { visibility: visible; opacity: 1; }
+    .lightbox-content { max-width: 90%; max-height: 90%; }
+    .lightbox img, .lightbox video { max-width: 100%; max-height: 100%; border-radius: 10px; }
+    .lightbox .close, .lightbox .prev, .lightbox .next {
+      position: absolute; color: white; font-size: 2rem; cursor: pointer; padding: 10px;
+    }
+    .lightbox .close { top: 20px; right: 30px; }
+    .lightbox .prev { left: 30px; }
+    .lightbox .next { right: 30px; }
+
+    /* Services */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 20px; }
+    .service-card {
+      background: white; border-radius: 15px; padding: 20px; text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s;
+    }
+    .service-card:hover { transform: translateY(-5px); }
+    .service-card h3 { color: #ff6f61; margin-bottom: 10px; }
+
+    /* Ratings */
+    #ratings { background: #fff0f5; border-radius: 15px; padding: 30px; }
+    .stars { display: flex; gap: 5px; justify-content: center; margin-bottom: 15px; }
+    .stars span { font-size: 2rem; cursor: pointer; color: #ccc; }
+    .stars span.active { color: gold; }
+    #comments { margin-top: 20px; }
+    .comment { background: white; padding: 10px; border-radius: 8px; margin: 10px 0; }
+
+    /* Contact */
+    form { display: flex; flex-direction: column; gap: 15px; max-width: 600px; margin: 0 auto; }
+    input, textarea { padding: 12px; border: 1px solid #ccc; border-radius: 8px; }
+    button { background: #ff6f61; border: none; color: white; padding: 15px; border-radius: 8px; cursor: pointer; }
+    button:hover { background: #e65b50; }
+
+    /* Footer */
+    footer { background: #333; color: white; text-align: center; padding: 30px; }
+    footer a { color: #ff6f61; margin: 0 10px; }
+    footer a:hover { color: white; }
+
+    /* Responsive */
+    @media(max-width:768px){
+      nav { flex-direction: column; gap: 10px; padding: 10px; }
+      .hero-content h1 { font-size: 2rem; }
+      .hero-content p { font-size: 1.2rem; }
+      section { padding: 50px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">Maps Arts</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#ratings">Ratings</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header>
+    <div class="hero-content">
+      <div class="profile-circle"><img src="IMAGES/IMG_5472.JPG" alt="Maph Arts Profile"></div>
+      <h1>Maps Arts</h1>
+      <p>Feeding Souls with Creativity</p>
+      <a href="#portfolio">Explore Portfolio</a>
+    </div>
+  </header>
+
+  <!-- About -->
+  <section id="about">
+    <h2 class="section-title">Meet the Artist</h2>
+    <div class="bio-box">
+      Hi, I’m Maphuela Sekgala, the artist behind Maps Arts. I’ve been passionate about art since I was five, exploring creativity with every pencil and brush I could find. My journey truly took off in 2017 when a friend showed me how to draw my own portrait—an experience that completely inspired me to pursue art seriously. Since then, I’ve honed my skills in drawing, painting, and design, creating pieces that tell a story and connect with people. I’ve faced betrayal—even from an art teacher and a best friend—but instead of breaking me, it built me. Art became my way to turn pain into strength and stories people can connect with. Through Maps Arts, I create not just pieces, but conversations. What story would you want art to tell for you?
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="portfolio">
+    <h2 class="section-title">My Work</h2>
+    <div class="portfolio-grid">
+      <!-- Images -->
+      <div class="portfolio-item"><img src="IMAGES/IMG_5954.jpg" alt="CUSTOM PENCIL SKETCH"></div>
+      <div class="portfolio-item"><img src="IMAGES/ada6ae74-96d1-4821-a8a8-821392cd12f3.JPG" alt="CUSTOM PENCIL SKETCH"></div>
+      <div class="portfolio-item"><img src="IMAGES/IMG_3949.JPG" alt="CUSTOM DESIGNED SHIRT"></div>
+      <div class="portfolio-item"><img src="IMAGES/IMG_1383.JPG" alt="CUSTOM DESIGNED SHIRT"></div>
+      <div class="portfolio-item"><img src="IMAGES/IMG_4741.jpg" alt="CUSTOM CANVAS PAINTING"></div>
+      <div class="portfolio-item"><img src="IMAGES/IMG_1348.jpg" alt="MURAL"></div>
+      <!-- Videos -->
+      <div class="portfolio-item"><video src="IMAGES/v09044g40000clusbfvog65r477mfh20.MP4" controls></video></div>
+      <div class="portfolio-item"><video src="IMAGES/IMG_1408.MP4" controls></video></div>
+      <div class="portfolio-item"><video src="IMAGES/IMG_3799.mov" controls></video></div>
+      <div class="portfolio-item"><video src="IMAGES/IMG_3796.mov" controls></video></div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <h2 class="section-title">Commission Your Artwork</h2>
+    <div class="services-grid">
+      <div class="service-card"><h3>Portrait Drawing A4</h3><p>21 × 29.7 cm | R400</p></div>
+      <div class="service-card"><h3>Portrait Drawing A3</h3><p>29.7 × 42 cm | R780</p></div>
+      <div class="service-card"><h3>Portrait Drawing A2</h3><p>42 × 59.4 cm | R1,900</p></div>
+      <div class="service-card"><h3>Portrait Drawing A1</h3><p>59.4 × 84.1 cm | R2,700</p></div>
+      <div class="service-card"><h3>Portrait Drawing A0</h3><p>84.1 × 118.9 cm | R8,000</p></div>
+      <div class="service-card"><h3>Canvas Painting A4</h3><p>21 × 29.7 cm | R700</p></div>
+      <div class="service-card"><h3>Canvas Painting A3</h3><p>29.7 × 42 cm | R1,800</p></div>
+      <div class="service-card"><h3>Canvas Painting A2</h3><p>42 × 59.4 cm | R2,400</p></div>
+      <div class="service-card"><h3>Canvas Painting A1</h3><p>59.4 × 84.1 cm | R3,900</p></div>
+      <div class="service-card"><h3>Canvas Painting A0</h3><p>84.1 × 118.9 cm | R4,700</p></div>
+      <div class="service-card"><h3>Canvas Painting 1 m²</h3><p>100 × 100 cm | R5,000</p></div>
+      <div class="service-card"><h3>Face Painting on Shirt</h3><p>Shirt included | R500</p></div>
+      <div class="service-card"><h3>Anime Painting on Shirt</h3><p>Shirt included | R440</p></div>
+      <div class="service-card"><h3>Full Custom Artwork on Shirt</h3><p>Shirt included | R1,200</p></div>
+      <div class="service-card"><h3>Murals (Client Materials)</h3><p>R4,650 – R4,700 per m²</p></div>
+      <div class="service-card"><h3>Murals (Artist Materials)</h3><p>R5,950 – R6,000 per m²</p></div>
+      <div class="service-card"><h3>Sculptures</h3><p>Custom size | Price on request</p></div>
+    </div>
+  </section>
+
+  <!-- Ratings -->
+  <section id="ratings">
+    <h2 class="section-title">Rate My Work</h2>
+    <div class="stars">
+      <span data-value="1">★</span>
+      <span data-value="2">★</span>
+      <span data-value="3">★</span>
+      <span data-value="4">★</span>
+      <span data-value="5">★</span>
+      <span data-value="6">★</span>
+      <span data-value="7">★</span>
+      <span data-value="8">★</span>
+      <span data-value="9">★</span>
+      <span data-value="10">★</span>
+    </div>
+    <p id="rating-count">Total Ratings: 0</p>
+    <form id="comment-form">
+      <textarea placeholder="Leave a comment..." required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="comments"></div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2 class="section-title">Let’s Create Something Together</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <p style="text-align:center; margin-top:20px;">
+      WhatsApp / Calls: +27 74 978 9014 <br>
+      Email: <a href="mailto:mapsarts94@gmail.com">mapsarts94@gmail.com</a>
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Maps Arts – Feeding Souls with Creativity</p>
+    <p>
+      <a href="https://www.facebook.com/share/14HYoaHaBHd/?mibextid=wwXIfr">Facebook</a> | <a href="https://www.instagram.com/maps_artss?igsh=bml6ZzFrajdtbDc5&utm_source=qr">Instagram</a> | <a href="https://www.tiktok.com/@mapsartss?_t=ZS-8zvuBmPCoHo&_r=1">TikTok</a>
+    </p>
+  </footer>
+
+  <script>
+    // Scroll animations
+    const sections = document.querySelectorAll("section");
+    window.addEventListener("scroll", () => {
+      const trigger = window.innerHeight * 0.85;
+      sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if(top < trigger) sec.classList.add("visible");
+      });
+    });
+
+    // Lightbox
+    const portfolioItems = document.querySelectorAll(".portfolio-item");
+    const lightbox = document.createElement("div");
+    lightbox.className = "lightbox";
+    lightbox.innerHTML = '<span class="close">&times;</span><span class="prev">❮</span><div class="lightbox-content"></div><span class="next">❯</span>';
+    document.body.appendChild(lightbox);
+    const content = lightbox.querySelector(".lightbox-content");
+    let index = 0;
+
+    function showLightbox(i){
+      index = i;
+      const item = portfolioItems[i].querySelector("img,video").cloneNode(true);
+      content.innerHTML = ""; content.appendChild(item);
+      lightbox.classList.add("active");
+    }
+
+    portfolioItems.forEach((item,i)=> item.addEventListener("click",()=> showLightbox(i)));
+    lightbox.querySelector(".close").onclick = ()=> lightbox.classList.remove("active");
+    lightbox.querySelector(".prev").onclick = ()=> showLightbox((index-1+portfolioItems.length)%portfolioItems.length);
+    lightbox.querySelector(".next").onclick = ()=> showLightbox((index+1)%portfolioItems.length);
+
+    // Ratings
+    const stars = document.querySelectorAll(".stars span");
+    const ratingCount = document.getElementById("rating-count");
+    let totalRatings = 0;
+    stars.forEach(star=>{
+      star.addEventListener("click",()=>{
+        totalRatings++;
+        ratingCount.textContent = "Total Ratings: " + totalRatings;
+        stars.forEach(s=>s.classList.remove("active"));
+        star.classList.add("active");
+      });
+    });
+
+    // Comments
+    const form = document.getElementById("comment-form");
+    const commentsDiv = document.getElementById("comments");
+    form.addEventListener("submit",e=>{
+      e.preventDefault();
+      const text = form.querySelector("textarea").value;
+      const div = document.createElement("div");
+      div.className = "comment";
+      div.textContent = text;
+      commentsDiv.appendChild(div);
+      form.reset();
+    });
+  </script>
+</body>
+</html>
